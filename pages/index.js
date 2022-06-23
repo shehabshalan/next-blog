@@ -1,11 +1,10 @@
 import BlogCard from "../components/BlogCard";
-import { Typography, Box, Container } from "@mui/material";
-
-import useFetch from "../hooks/useFetch";
+import { Typography, Box } from "@mui/material";
+import fetchData from "../helpers/fetchData";
 export const getStaticProps = async () => {
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}/blogs`;
 
-  const data = await useFetch(url);
+  const data = await fetchData(url);
   return {
     props: {
       blogs: data,
