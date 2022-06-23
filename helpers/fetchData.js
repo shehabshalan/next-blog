@@ -10,7 +10,7 @@ const fetchData = async (url) => {
     const { data } = await res.json();
     return data;
   } catch (error) {
-    alert(error);
+    console.log(error);
   }
 };
 
