@@ -24,7 +24,7 @@ const BlogCard = ({ blog, blogId }) => {
         title={blog.title}
         // subheader={toDateTime(blog.datetime.seconds)}
       />
-      <Link href={`/${blogId}`}>
+      <Link href={`/blogs/${blogId}`}>
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             {blog.body.length <= 25

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Typography } from "@mui/material";
-import fetchData from "../helpers/fetchData";
+import fetchData from "../../helpers/fetchData";
 
 export const getStaticPaths = async () => {
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}/blogs`;
