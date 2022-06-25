@@ -28,7 +28,7 @@ const NotFound = () => {
         Taking you back in 3 seconds or click in the button below to go back
       </Typography>
       <br />
-      <Button variant="outlined" onClick={() => history.push("/")}>
+      <Button variant="outlined" onClick={() => router.push("/")}>
         Go back
       </Button>
     </Box>
