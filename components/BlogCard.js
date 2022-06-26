@@ -1,10 +1,18 @@
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import {
+  Favorite,
+  FavoriteBorder,
+  ThumbUpOffAlt,
+  ThumbUpAlt,
+  ChatBubbleOutline,
+} from "@mui/icons-material";
+import {
+  Box,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   Checkbox,
+  Grid,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -35,15 +43,22 @@ const BlogCard = ({ blog, blogId }) => {
       </Link>
 
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="love this">
           <Checkbox
             icon={<FavoriteBorder />}
             checkedIcon={<Favorite sx={{ color: "red" }} />}
+            title="Love this"
           />
         </IconButton>
-        {/* <IconButton aria-label="share">
-          <Share />
-        </IconButton> */}
+        Love
+        <IconButton aria-label="like this">
+          <Checkbox
+            icon={<ThumbUpOffAlt />}
+            checkedIcon={<ThumbUpAlt sx={{ color: "blue" }} />}
+            title="Like this"
+          />
+        </IconButton>
+        Like
       </CardActions>
     </Card>
   );
