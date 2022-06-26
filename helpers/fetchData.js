@@ -1,6 +1,8 @@
+import { Endpoints } from "../Constants/endpoints";
+
 const fetchData = async (url) => {
   const header = {
-    Authorization: process.env.NEXT_PUBLIC_BEARER_TOKEN,
+    Authorization: Endpoints.getToken,
   };
 
   try {
@@ -10,7 +12,7 @@ const fetchData = async (url) => {
     const { data } = await res.json();
     return data;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 
