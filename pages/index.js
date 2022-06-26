@@ -2,7 +2,7 @@ import BlogCard from "../components/BlogCard";
 import { Typography, Box } from "@mui/material";
 import fetchData from "../helpers/fetchData";
 export const getStaticProps = async () => {
-  const url = `https://reactblog-strapi.herokuapp.com/api/blogs`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}`;
 
   const data = await fetchData(url);
   return {
