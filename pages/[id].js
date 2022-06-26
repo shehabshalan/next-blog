@@ -10,13 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-
 import fetchData from "../helpers/fetchData";
 import Head from "next/head";
 import { Box } from "@mui/system";
+import ContentPaper from "../components/ContentPaper";
+import ReactMarkdown from "react-markdown";
+
 export const getStaticPaths = async () => {
-  const url = `https://reactblog-strapi.herokuapp.com/api/blogs`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}`;
   const data = await fetchData(url);
 
   const paths = data.map((path) => {
@@ -33,7 +34,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const id = context.params.id;
-  const url = `https://reactblog-strapi.herokuapp.com/api/blogs/${id}`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${id}`;
 
   const data = await fetchData(url);
 
@@ -48,7 +49,7 @@ const BlogDetails = ({ post }) => {
         <title>{post.title}</title>
         <meta name="description" content={post.body} />
       </Head>
-      <Paper sx={{ p: 4, mt: 6 }}>
+      <ContentPaper>
         <article
           style={{
             marginTop: "2rem",
@@ -69,7 +70,8 @@ const BlogDetails = ({ post }) => {
             <Typography variant="h4" sx={{ mb: 4 }}>
               {post.attributes.title}
             </Typography>
-            <Typography variant="body1">{post.attributes.body}</Typography>
+            <ReactMarkdown>{post.attributes.body}</ReactMarkdown>
+            {/* <Typography variant="body1">{post.attributes.body}</Typography> */}
           </>
 
           {!post && (
@@ -110,7 +112,7 @@ const BlogDetails = ({ post }) => {
             </Button>
           </div>
         </section>
-      </Paper>
+      </ContentPaper>
     </Box>
   );
 };
