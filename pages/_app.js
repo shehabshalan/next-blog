@@ -5,12 +5,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 function MyApp({ Component, pageProps }) {
   const theme = createTheme({
     palette: {
-      mode: "light",
+      type: "light",
       primary: {
         main: "#000000",
+        dark: "#ffffff",
       },
       secondary: {
-        main: "#000000",
+        main: "#3d48df",
       },
     },
   });
