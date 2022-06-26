@@ -1,8 +1,9 @@
 import BlogCard from "../components/BlogCard";
 import { Typography, Box } from "@mui/material";
 import fetchData from "../helpers/fetchData";
+import { Endpoints } from "../Constants/endpoints";
 export const getStaticProps = async () => {
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL}`;
+  const url = Endpoints.getBlogs;
 
   const data = await fetchData(url);
   return {

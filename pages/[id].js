@@ -15,9 +15,10 @@ import Head from "next/head";
 import { Box } from "@mui/system";
 import ContentPaper from "../components/ContentPaper";
 import ReactMarkdown from "react-markdown";
+import { Endpoints } from "../Constants/endpoints";
 
 export const getStaticPaths = async () => {
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL}`;
+  const url = Endpoints.getBlogs;
   const data = await fetchData(url);
 
   const paths = data.map((path) => {
@@ -34,7 +35,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const id = context.params.id;
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${id}`;
+  const url = `${Endpoints.getBlogById}/${id}`;
 
   const data = await fetchData(url);
 
@@ -42,6 +43,7 @@ export const getStaticProps = async (context) => {
     props: { post: data },
   };
 };
+
 const BlogDetails = ({ post }) => {
   return (
     <Box>
