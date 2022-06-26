@@ -22,9 +22,9 @@ const BlogCard = ({ blog, blogId }) => {
   return (
     <Card
       sx={{
-        mb: { xs: 0, md: 5 },
+        mb: { xs: 0, md: 2 },
         mt: { xs: 2 },
-        maxWidth: "900px",
+        maxWidth: "700px",
         cursor: "pointer",
       }}
     >
