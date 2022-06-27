@@ -3,6 +3,7 @@ import { Typography, Box, Grid } from "@mui/material";
 import fetchData from "../helpers/fetchData";
 import { Endpoints } from "../Constants/endpoints";
 import LeftsideBar from "../components/LeftsideBar";
+import ContentCard from "../components/ContentCard";
 export const getStaticProps = async () => {
   const url = Endpoints.getBlogs;
 
@@ -40,9 +41,11 @@ const Blogs = ({ blogs }) => {
           <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
             News
           </Typography>
-          {blogs.map((blog) => (
-            <BlogCard key={blog.id} blogId={blog.id} blog={blog.attributes} />
-          ))}{" "}
+          <ContentCard />
+          <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
+            Trend
+          </Typography>
+          <ContentCard />
         </Grid>
       </Grid>
     </>
