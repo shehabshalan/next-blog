@@ -9,7 +9,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-
+import { useEffect, useState } from "react";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -55,6 +55,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 import Link from "next/link";
 const Navbar = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Perform localStorage action
+    const item = localStorage.getItem("token");
+    if (item) {
+      setIsAuthenticated(true);
+    }
+  }, []);
   return (
     <AppBar position="static">
       <Toolbar>
@@ -84,22 +93,33 @@ const Navbar = () => {
                 />
               </Search>
             </Grid>
-            <Grid item xs={4} md={4} lg={4}>
-              <Link href="/login">
-                <Button variant="outlined" color="secondary">
-                  Login
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{ ml: 2, mr: 2 }}
-                >
-                  Create account
-                </Button>
-              </Link>
-            </Grid>
+
+            {isAuthenticated ? (
+              <Grid item xs={4} md={4} lg={4}>
+                <Link href="/createblog">
+                  <Button variant="outlined" color="secondary">
+                    Create Blog
+                  </Button>
+                </Link>
+              </Grid>
+            ) : (
+              <Grid item xs={4} md={4} lg={4}>
+                <Link href="/login">
+                  <Button variant="outlined" color="secondary">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    sx={{ ml: 2, mr: 2 }}
+                  >
+                    Create account
+                  </Button>
+                </Link>
+              </Grid>
+            )}
           </Grid>
         </Container>
       </Toolbar>
