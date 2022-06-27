@@ -1,7 +1,7 @@
 import PostForm from "../components/PostForm";
 
-const createblog = () => {
+const CreateBlog = () => {
   return <PostForm />;
 };
 
-export default createblog;
+export default CreateBlog;

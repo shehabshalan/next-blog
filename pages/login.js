@@ -11,7 +11,7 @@ import { Endpoints } from "../Constants/endpoints";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-const login = () => {
+const Login = () => {
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
   const handleSubmit = async (event) => {
@@ -103,4 +103,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

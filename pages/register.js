@@ -11,7 +11,7 @@ import { Endpoints } from "../Constants/endpoints";
 import { uuid } from "uuidv4";
 import { useRouter } from "next/router";
 
-const register = () => {
+const Register = () => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const handleSubmit = async (event) => {
@@ -112,4 +112,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default Register;
