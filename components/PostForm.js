@@ -1,46 +1,101 @@
-import { Button, TextField, Typography } from "@mui/material";
-import { Container } from "@mui/system";
-import ContentPaper from "./ContentPaper";
+import ContentPaper from "../components/ContentPaper";
+import React from "react";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Endpoints } from "../Constants/endpoints";
+import { useRouter } from "next/router";
 
+import axios from "axios";
 const PostForm = () => {
+  const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const payload = {
+      data: {
+        title: data.get("title"),
+        body: data.get("body"),
+        userId: localStorage.getItem("userId"),
+      },
+    };
+    console.log(payload);
+    setLoading(true);
+    const url = Endpoints.getBlogs;
+    // url, payload and bearer token are required
+
+    axios
+      .post(url, payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setLoading(false);
+        console.log("blog published", response.data);
+        router.push("/");
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("An error occurred:", error.response);
+      });
+  };
   return (
     <ContentPaper>
-      <Container maxWidth="sm">
-        <Typography variant="h6" align="center" paragraph>
-          New Blog
-        </Typography>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="title"
-          label="Title"
-          name="title"
-          //   onChange={(e) => setPostTitle(e.target.value)}
-          autoFocus
-        />
-        <TextField
-          margin="normal"
-          required
-          multiline
-          fullWidth
-          id="body"
-          label="Body"
-          name="body"
-          rows={4}
-          //   onChange={(e) => setPostBody(e.target.value)}
-          autoFocus
-        />
-
-        <Button
-          type="submit"
-          variant="contained"
-          fullWidth
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Submit
-        </Button>
-      </Container>
+      <Box
+        sx={{
+          mt: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          p: 5,
+        }}
+      >
+        <Box sx={{ maxWidth: "500px" }}>
+          <Typography component="h1" variant="h5">
+            Create blog
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="title"
+              label="Title"
+              name="title"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="body"
+              label="Body"
+              type="textarea"
+              id="body"
+              multiline
+              rows={4}
+            />
+            <LoadingButton
+              type="submit"
+              fullWidth
+              loading={loading}
+              variant="contained"
+              color="secondary"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Publish{" "}
+            </LoadingButton>
+          </Box>
+        </Box>
+      </Box>
     </ContentPaper>
   );
 };
