@@ -10,12 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import fetchData from "../helpers/fetchData";
 import Head from "next/head";
 import { Box } from "@mui/system";
-import ContentPaper from "../components/ContentPaper";
 import ReactMarkdown from "react-markdown";
-import { Endpoints } from "../Constants/endpoints";
+import { Endpoints } from "../../Constants/endpoints";
+import ContentPaper from "../../components/ContentPaper";
+import fetchData from "../../helpers/fetchData";
 
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
