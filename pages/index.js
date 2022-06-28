@@ -4,6 +4,7 @@ import fetchData from "../helpers/fetchData";
 import { Endpoints } from "../Constants/endpoints";
 import LeftsideBar from "../components/LeftsideBar";
 import ContentCard from "../components/ContentCard";
+import { useUserAuth } from "../context/UserAuthContext";
 export const getStaticProps = async () => {
   const url = Endpoints.getBlogs;
 
@@ -15,6 +16,10 @@ export const getStaticProps = async () => {
   };
 };
 const Blogs = ({ blogs }) => {
+  const { user } = useUserAuth();
+  // convert the user string to an object
+  console.log(user);
+
   return (
     <>
       <Grid
