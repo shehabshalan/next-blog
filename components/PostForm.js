@@ -8,7 +8,9 @@ import { Endpoints } from "../Constants/endpoints";
 import { useRouter } from "next/router";
 
 import axios from "axios";
+import { useUserAuth } from "../context/UserAuthContext";
 const PostForm = () => {
+  const { user } = useUserAuth();
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const handleSubmit = async (event) => {
@@ -18,14 +20,12 @@ const PostForm = () => {
       data: {
         title: data.get("title"),
         body: data.get("body"),
-        userId: localStorage.getItem("userId"),
+        userId: user.userId,
       },
     };
     console.log(payload);
     setLoading(true);
     const url = Endpoints.getBlogs;
-    // url, payload and bearer token are required
-
     axios
       .post(url, payload, {
         headers: {
