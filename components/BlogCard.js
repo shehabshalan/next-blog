@@ -17,8 +17,11 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import { useUserAuth } from "../context/UserAuthContext";
 
 const BlogCard = ({ blog, blogId }) => {
+  const { user } = useUserAuth();
+
   return (
     <Card
       sx={{
@@ -39,6 +42,15 @@ const BlogCard = ({ blog, blogId }) => {
               ? blog.body
               : `${blog.body.slice(0, 300)} ...`}
           </Typography>
+          {/* {user?.userId === blog.userId ? (
+            <IconButton
+              aria-label="edit"
+              sx={{ float: "right" }}
+              href={`/editblog/${blogId}`}
+            >
+              Edit this
+            </IconButton>
+          ) : null} */}
         </CardContent>
       </Link>
 
