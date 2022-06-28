@@ -54,16 +54,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 /// to do - implement search
 
 import Link from "next/link";
+import { useUserAuth } from "../context/UserAuthContext";
 const Navbar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Perform localStorage action
-    const item = localStorage.getItem("token");
-    if (item) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  const { isAuth } = useUserAuth();
   return (
     <AppBar position="static">
       <Toolbar>
@@ -94,7 +87,7 @@ const Navbar = () => {
               </Search>
             </Grid>
 
-            {isAuthenticated ? (
+            {isAuth ? (
               <Grid item xs={4} md={4} lg={4}>
                 <Link href="/createblog">
                   <Button variant="outlined" color="secondary">
