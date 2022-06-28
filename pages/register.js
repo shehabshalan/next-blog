@@ -6,14 +6,11 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
-import axios from "axios";
-import { Endpoints } from "../Constants/endpoints";
 import { uuid } from "uuidv4";
-import { useRouter } from "next/router";
+import { useUserAuth } from "../context/UserAuthContext";
 
 const Register = () => {
-  const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const { register, loading } = useUserAuth();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -24,22 +21,7 @@ const Register = () => {
       password: data.get("password"),
       userId: uuid(),
     };
-
-    setLoading(true);
-    const url = Endpoints.register;
-    axios
-      .post(url, payload)
-      .then((response) => {
-        setLoading(false);
-        console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
-        localStorage.setItem("token", response.data.jwt);
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("An error occurred:", error.response);
-      });
+    register(payload);
   };
   return (
     <ContentPaper>
