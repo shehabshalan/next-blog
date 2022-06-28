@@ -1,47 +1,26 @@
 import ContentPaper from "../components/ContentPaper";
 import React from "react";
 import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Endpoints } from "../Constants/endpoints";
-import axios from "axios";
-import { useRouter } from "next/router";
+import { useUserAuth } from "../context/UserAuthContext";
 
 const Login = () => {
-  const [loading, setLoading] = React.useState(false);
-  const router = useRouter();
+  const { login, loading } = useUserAuth();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
     const payload = {
       identifier: data.get("email"),
       password: data.get("password"),
     };
-
-    setLoading(true);
-    const url = Endpoints.login;
-    axios
-      .post(url, payload)
-      .then((response) => {
-        setLoading(false);
-        console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
-        localStorage.setItem("token", response.data.jwt);
-        localStorage.setItem("userId", response.data.user.userId);
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("An error occurred:", error.response);
-      });
+    login(payload);
   };
 
-  // login(data.get("email"), data.get("password"));
   return (
     <ContentPaper>
       <Box
