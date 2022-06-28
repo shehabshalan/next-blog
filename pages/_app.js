@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { UserAuthContextProvider } from "../context/UserAuthContext";
 
 function MyApp({ Component, pageProps }) {
   const theme = createTheme({
@@ -17,9 +18,11 @@ function MyApp({ Component, pageProps }) {
   });
   return (
     <ThemeProvider theme={theme}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <UserAuthContextProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </UserAuthContextProvider>
     </ThemeProvider>
   );
 }
