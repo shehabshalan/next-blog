@@ -6,7 +6,7 @@ import LeftsideBar from "../components/LeftsideBar";
 import ContentCard from "../components/ContentCard";
 import Head from "next/head";
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const url = Endpoints.getBlogs;
 
   const data = await fetchData(url);
@@ -14,7 +14,6 @@ export const getStaticProps = async () => {
     props: {
       blogs: data,
     },
-    revalidate: 1,
   };
 };
 const Blogs = ({ blogs }) => {
