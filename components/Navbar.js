@@ -56,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 import Link from "next/link";
 import { useUserAuth } from "../context/UserAuthContext";
 const Navbar = () => {
-  const { isAuth } = useUserAuth();
+  const { isAuth, logout } = useUserAuth();
   return (
     <AppBar position="static">
       <Toolbar>
@@ -90,18 +90,20 @@ const Navbar = () => {
             {isAuth ? (
               <Grid item xs={4} md={4} lg={4}>
                 <Link href="/createblog">
-                  <Button variant="outlined" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    sx={{ ml: 2, mr: 2 }}
+                  >
                     Create Blog
                   </Button>
                 </Link>
+                <Button variant="outlined" color="secondary" onClick={logout}>
+                  Logout
+                </Button>
               </Grid>
             ) : (
               <Grid item xs={4} md={4} lg={4}>
-                <Link href="/login">
-                  <Button variant="outlined" color="secondary">
-                    Login
-                  </Button>
-                </Link>
                 <Link href="/register">
                   <Button
                     variant="contained"
@@ -109,6 +111,11 @@ const Navbar = () => {
                     sx={{ ml: 2, mr: 2 }}
                   >
                     Create account
+                  </Button>
+                </Link>
+                <Link href="/login">
+                  <Button variant="outlined" color="secondary">
+                    Login
                   </Button>
                 </Link>
               </Grid>
