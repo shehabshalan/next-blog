@@ -14,7 +14,11 @@ import {
   CardContent,
   CardHeader,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   Grid,
+  Button,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -27,14 +31,31 @@ import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import mutateData from "../helpers/mutateData";
 import { Endpoints } from "../Constants/endpoints";
+import { useRouter } from "next/router";
 const options = ["Delete", "Edit"];
 
 const ITEM_HEIGHT = 48;
 
 const BlogCard = ({ blog, blogId }) => {
+  const router = useRouter();
   const { user } = useUserAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  const handleClickOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleYesDelete = () => {
+    mutateData(`${Endpoints.deleteBlog}/${blogId}`);
+
+    setDialogOpen(false);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -42,10 +63,10 @@ const BlogCard = ({ blog, blogId }) => {
     // console log the value of the selected option
     const selectedOption = e.target.innerText;
     if (selectedOption === "Delete") {
-      mutateData(`${Endpoints.deleteBlog}/${blogId}`);
+      handleClickOpenDialog();
     }
     if (selectedOption === "Edit") {
-      console.log("edit");
+      router.push(`/editblog/${blogId}`);
     }
     setAnchorEl(null);
   };
@@ -108,10 +129,12 @@ const BlogCard = ({ blog, blogId }) => {
         title={blog.username}
         // subheader="September 14, 2016"
       />
-      <CardHeader
-        title={blog.title}
-        // subheader={toDateTime(blog.datetime.seconds)}
-      />
+      <Link href={`/blog/${blogId}`}>
+        <CardHeader
+          title={blog.title}
+          // subheader={toDateTime(blog.datetime.seconds)}
+        />
+      </Link>
       <Link href={`/blog/${blogId}`}>
         <CardContent>
           <Typography variant="body2" color="text.secondary">
@@ -121,7 +144,24 @@ const BlogCard = ({ blog, blogId }) => {
           </Typography>
         </CardContent>
       </Link>
-
+      <Dialog
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delete this blog?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleYesDelete} color="error">
+            Yes
+          </Button>
+          <Button onClick={handleCloseDialog} autoFocus>
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
       <CardActions disableSpacing>
         <IconButton aria-label="love this">
           <Checkbox
