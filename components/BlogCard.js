@@ -32,6 +32,7 @@ import axios from "axios";
 import mutateData from "../helpers/mutateData";
 import { Endpoints } from "../Constants/endpoints";
 import { useRouter } from "next/router";
+import toDateTime from "../helpers/dateFormater";
 const options = ["Delete", "Edit"];
 
 const ITEM_HEIGHT = 48;
@@ -127,7 +128,7 @@ const BlogCard = ({ blog, blogId }) => {
           </>
         }
         title={blog.username}
-        // subheader="September 14, 2016"
+        subheader={toDateTime(blog.createdAt)}
       />
       <Link href={`/blog/${blogId}`}>
         <CardHeader
@@ -163,14 +164,14 @@ const BlogCard = ({ blog, blogId }) => {
         </DialogActions>
       </Dialog>
       <CardActions disableSpacing>
-        <IconButton aria-label="love this">
+        {/* <IconButton aria-label="love this">
           <Checkbox
             icon={<FavoriteBorder />}
             checkedIcon={<Favorite sx={{ color: "red" }} />}
             title="Love this"
           />
         </IconButton>
-        Love
+        Love */}
         <IconButton aria-label="like this">
           <Checkbox
             icon={<ThumbUpOffAlt />}
@@ -178,7 +179,15 @@ const BlogCard = ({ blog, blogId }) => {
             title="Like this"
           />
         </IconButton>
-        Like
+        {blog.likes <= 1 ? (
+          <Typography variant="body2" color="text.secondary">
+            {blog.likes} like
+          </Typography>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            {blog.likes} likes
+          </Typography>
+        )}
       </CardActions>
     </Card>
   );
