@@ -27,8 +27,6 @@ export function UserAuthContextProvider({ children }) {
       .post(url, payload)
       .then((response) => {
         setLoading(false);
-        console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
         localStorage.setItem("token", response.data.jwt);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         window.location.href = "/";
@@ -45,8 +43,6 @@ export function UserAuthContextProvider({ children }) {
       .post(url, payload)
       .then((response) => {
         setLoading(false);
-        console.log("User profile", response.data.user);
-        console.log("User token", response.data.jwt);
         localStorage.setItem("token", response.data.jwt);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         window.location.href = "/";
@@ -60,7 +56,7 @@ export function UserAuthContextProvider({ children }) {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
-    router("/login");
+    window.location.href = "/";
   }
 
   return (
