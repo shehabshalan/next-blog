@@ -13,18 +13,6 @@ import { useUserAuth } from "../../context/UserAuthContext";
 const EditBlog = ({ blog }) => {
   const { user } = useUserAuth();
 
-  /// check if the logged in user's id is the same as the blog's author id
-  const isAuthor = () => {
-    return user?.userId === "ef87715f-6bb9-4f01-8620-f5b409c5a345";
-  };
-
-  useEffect(() => {
-    console.log(isAuthor());
-    if (!isAuthor()) {
-      router.push("/");
-    }
-  }, [isAuthor]);
-
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const handleSubmit = async (event) => {
