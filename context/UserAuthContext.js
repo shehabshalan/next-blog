@@ -10,6 +10,7 @@ export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     // Perform localStorage action
@@ -61,7 +62,16 @@ export function UserAuthContextProvider({ children }) {
 
   return (
     <userAuthContext.Provider
-      value={{ isAuth, user, loading, register, login, logout }}
+      value={{
+        isAuth,
+        user,
+        loading,
+        register,
+        login,
+        logout,
+        searchTerm,
+        setSearchTerm,
+      }}
     >
       {children}
     </userAuthContext.Provider>
