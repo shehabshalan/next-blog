@@ -6,9 +6,9 @@ import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Endpoints } from "../Constants/endpoints";
 import { useRouter } from "next/router";
-
 import axios from "axios";
 import { useUserAuth } from "../context/UserAuthContext";
+
 const PostForm = () => {
   const { user } = useUserAuth();
   const router = useRouter();
@@ -80,7 +80,7 @@ const PostForm = () => {
               type="textarea"
               id="body"
               multiline
-              rows={4}
+              rows={12}
             />
             <LoadingButton
               type="submit"
