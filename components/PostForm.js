@@ -21,9 +21,9 @@ const PostForm = () => {
         title: data.get("title"),
         body: data.get("body"),
         userId: user.userId,
+        username: user.username,
       },
     };
-    console.log(payload);
     setLoading(true);
     const url = Endpoints.getBlogs;
     axios
@@ -34,7 +34,6 @@ const PostForm = () => {
       })
       .then((response) => {
         setLoading(false);
-        console.log("blog published", response.data);
         router.push("/");
       })
       .catch((error) => {
