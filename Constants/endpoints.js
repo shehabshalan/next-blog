@@ -7,6 +7,7 @@ export class Endpoints {
   static getBlogById = Endpoints.baseUrl + "blogs";
   static deleteBlog = Endpoints.baseUrl + "blogs";
   static updateBlog = Endpoints.baseUrl + "blogs";
+  static searchBlogs = Endpoints.baseUrl + "blogs?filters[title][$containsi]=";
   static login = Endpoints.baseUrl + "auth/local";
   static register = Endpoints.baseUrl + "auth/local/register";
   static getToken =
