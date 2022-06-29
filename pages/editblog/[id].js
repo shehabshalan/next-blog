@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TextField, Typography, Box } from "@mui/material";
 import Head from "next/head";
 import { Endpoints } from "../../Constants/endpoints";
@@ -7,6 +7,7 @@ import fetchData from "../../helpers/fetchData";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useUserAuth } from "../../context/UserAuthContext";
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
   const data = await fetchData(url);
@@ -30,16 +31,17 @@ export const getStaticProps = async (context) => {
   const data = await fetchData(url);
 
   return {
-    props: { post: data },
+    props: { blog: data },
     revalidate: 1,
   };
 };
 
-const EditBlogDetails = ({ post }) => {
+const EditBlogDetails = ({ blog }) => {
+  const { user } = useUserAuth();
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
-  const [title, setTitle] = React.useState(post?.attributes?.title);
-  const [body, setBody] = React.useState(post?.attributes?.body);
+  const [title, setTitle] = React.useState(blog?.attributes?.title);
+  const [body, setBody] = React.useState(blog?.attributes?.body);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -51,7 +53,7 @@ const EditBlogDetails = ({ post }) => {
         body: body,
       },
     };
-    const url = `${Endpoints.updateBlog}/${post.id}`;
+    const url = `${Endpoints.updateBlog}/${blog.id}`;
     axios
       .put(url, payload, {
         headers: {
@@ -67,13 +69,36 @@ const EditBlogDetails = ({ post }) => {
         console.log("An error occurred:", error.response);
       });
   };
-  if (!post) {
+  if (!blog) {
     return <div>Loading...</div>;
+  }
+
+  if (blog?.attributes?.userId !== user?.userId) {
+    return (
+      <ContentPaper>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+          }}
+        >
+          <Typography variant="h4">
+            You are not authorized to edit this blog
+          </Typography>
+          <Typography variant="h5">
+            Please go back to the <a href="/">home page</a>
+          </Typography>
+        </Box>
+      </ContentPaper>
+    );
   }
   return (
     <>
       <Head>
-        <title>{post.attributes.title}</title>
+        <title>{blog.attributes.title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ContentPaper>
