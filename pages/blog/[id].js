@@ -4,6 +4,7 @@ import {
   Button,
   CardHeader,
   Divider,
+  Grid,
   IconButton,
   Paper,
   TextField,
@@ -16,6 +17,7 @@ import ReactMarkdown from "react-markdown";
 import { Endpoints } from "../../Constants/endpoints";
 import ContentPaper from "../../components/ContentPaper";
 import fetchData from "../../helpers/fetchData";
+import toDateTime from "../../helpers/dateFormater";
 
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
@@ -40,59 +42,63 @@ export const getStaticProps = async (context) => {
   const data = await fetchData(url);
 
   return {
-    props: { post: data },
+    props: { blog: data },
     revalidate: 1,
   };
 };
 
-const BlogDetails = ({ post }) => {
-  if (!post) {
+const BlogDetails = ({ blog }) => {
+  if (!blog) {
     return <div>Loading...</div>;
   }
   return (
     <>
       <Head>
-        <title>{post.attributes.title}</title>
+        <title>{blog.attributes.title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Box>
-        <ContentPaper>
-          <article
-            style={{
-              marginTop: "2rem",
-              textAlign: "justify",
-            }}
-          >
-            <>
+      <Grid
+        container
+        spacing={2}
+        direction="row"
+        justifyContent="space-between"
+      >
+        <Grid item xs={12} sm={12} md={12} lg={8}>
+          <ContentPaper>
+            <article
+              style={{
+                marginTop: "2rem",
+                textAlign: "justify",
+              }}
+            >
               <CardHeader
                 sx={{ p: 0, mb: 2 }}
                 avatar={
                   <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                    R
+                    {blog.attributes.username.charAt(0)}
                   </Avatar>
                 }
-                title="Shrimp and Chorizo Paella"
-                subheader="September 14, 2016"
+                title={blog.attributes.username}
+                subheader={toDateTime(blog.attributes.createdAt)}
               />
               <Typography variant="h4" sx={{ mb: 4 }}>
-                {post.attributes.title}
+                {blog.attributes.title}
               </Typography>
-              <ReactMarkdown>{post.attributes.body}</ReactMarkdown>
-              {/* <Typography variant="body1">{post.attributes.body}</Typography> */}
-            </>
+              <ReactMarkdown>{blog.attributes.body}</ReactMarkdown>
+              {/* <Typography variant="body1">{blog.attributes.body}</Typography> */}
 
-            {!post && (
-              <>
-                <h2>Post Not Found</h2>
-                <p>
-                  <Link href="/">Visit Our Homepage</Link>
-                </p>
-              </>
-            )}
-          </article>
-          <Divider sx={{ mt: 4, mb: 4 }} />
-          {/* comment section */}
-          {/* <section>
+              {!blog && (
+                <>
+                  <h2>blog Not Found</h2>
+                  <p>
+                    <Link href="/">Visit Our Homepage</Link>
+                  </p>
+                </>
+              )}
+            </article>
+            <Divider sx={{ mt: 4, mb: 4 }} />
+            {/* comment section */}
+            {/* <section>
             <Typography variant="h6" sx={{ mb: 4 }}>
               Comments (0)
             </Typography>
@@ -115,12 +121,48 @@ const BlogDetails = ({ post }) => {
 
             <div style={{ textAlign: "right" }}>
               <Button variant="contained" color="primary">
-                Post Comment
+                blog Comment
               </Button>
             </div>
           </section> */}
-        </ContentPaper>
-      </Box>
+          </ContentPaper>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={4}>
+          {/* author information such as username, joined date, email */}
+          <ContentPaper>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                p: 2,
+              }}
+            >
+              <Avatar
+                sx={{
+                  width: "50px",
+                  height: "50px",
+                  bgcolor: blue[500],
+                }}
+                alt="An image of the author"
+              >
+                {blog.attributes.username.charAt(0)}
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                {blog.attributes.username}
+              </Typography>
+              <Divider sx={{ mt: 2, mb: 2, width: "100%" }} />
+              <Typography variant="body1">
+                <strong>Joined</strong> <br />{" "}
+                {toDateTime(blog.attributes.createdAt)}
+              </Typography>
+            </Box>
+          </ContentPaper>
+        </Grid>
+      </Grid>
     </>
   );
 };
