@@ -49,7 +49,7 @@ const Blogs = ({ blogs }) => {
           </Typography>
           <ContentCard />
           <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
-            Trend
+            Trends
           </Typography>
           <ContentCard />
         </Grid>
