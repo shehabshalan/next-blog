@@ -37,7 +37,6 @@ const EditBlog = ({ blog }) => {
         userId: user.userId,
       },
     };
-    console.log(payload);
     setLoading(true);
     const url = Endpoints.getBlogs;
     axios
@@ -48,7 +47,6 @@ const EditBlog = ({ blog }) => {
       })
       .then((response) => {
         setLoading(false);
-        console.log("blog published", response.data);
         router.push("/");
       })
       .catch((error) => {
