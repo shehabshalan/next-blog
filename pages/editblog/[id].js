@@ -8,6 +8,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useUserAuth } from "../../context/UserAuthContext";
+import Link from "next/link";
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
   const data = await fetchData(url);
@@ -89,7 +90,7 @@ const EditBlogDetails = ({ blog }) => {
             You are not authorized to edit this blog
           </Typography>
           <Typography variant="h5">
-            Please go back to the <a href="/">home page</a>
+            Please go back to the <Link href="/">home page</Link>
           </Typography>
         </Box>
       </ContentPaper>
