@@ -5,6 +5,8 @@ export class Endpoints {
       : "https://reactblog-strapi.herokuapp.com/api/";
   static getBlogs = Endpoints.baseUrl + "blogs";
   static getBlogById = Endpoints.baseUrl + "blogs";
+  static deleteBlog = Endpoints.baseUrl + "blogs";
+  static updateBlog = Endpoints.baseUrl + "blogs";
   static login = Endpoints.baseUrl + "auth/local";
   static register = Endpoints.baseUrl + "auth/local/register";
   static getToken =
