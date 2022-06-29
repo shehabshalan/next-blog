@@ -6,7 +6,7 @@ import LeftsideBar from "../components/LeftsideBar";
 import ContentCard from "../components/ContentCard";
 import Head from "next/head";
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const url = Endpoints.getBlogs;
 
   const data = await fetchData(url);
@@ -14,6 +14,7 @@ export const getServerSideProps = async () => {
     props: {
       blogs: data,
     },
+    revalidate: 1,
   };
 };
 const Blogs = ({ blogs }) => {
@@ -49,7 +50,7 @@ const Blogs = ({ blogs }) => {
           </Typography>
           <ContentCard />
           <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
-            Trends
+            Trend
           </Typography>
           <ContentCard />
         </Grid>
