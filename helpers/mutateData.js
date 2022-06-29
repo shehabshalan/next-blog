@@ -7,7 +7,7 @@ const mutateData = async (url) => {
 
   try {
     const res = await axios.delete(url, { headers: header });
-    window.location.reload();
+    window.location.href = "/";
     return res.data;
   } catch (error) {
     return error;
