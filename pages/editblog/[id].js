@@ -38,8 +38,8 @@ export const getStaticProps = async (context) => {
 const EditBlogDetails = ({ post }) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
-  const [title, setTitle] = React.useState(post.attributes.title);
-  const [body, setBody] = React.useState(post.attributes.body);
+  const [title, setTitle] = React.useState(post?.attributes?.title);
+  const [body, setBody] = React.useState(post?.attributes?.body);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
