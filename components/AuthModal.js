@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Grid } from "@mui/material";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserContext } from "../context/UserContext";
 import { useRouter } from "next/router";
 const style = {
   position: "absolute",
@@ -13,13 +13,11 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
   p: 4,
 };
 
 const AuthModal = () => {
-  const { open, setOpen, handleOpen, handleClose } = useUserAuth();
+  const { open, setOpen, handleOpen, handleClose } = useUserContext();
   const router = useRouter();
 
   return (
