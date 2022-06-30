@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import {
   Avatar,
@@ -18,7 +19,11 @@ import { Endpoints } from "../../Constants/endpoints";
 import ContentPaper from "../../components/ContentPaper";
 import fetchData from "../../helpers/fetchData";
 import toDateTime from "../../helpers/dateFormater";
-
+import CommentFeed from "../../components/CommentFeed";
+import { useUserAuth } from "../../context/UserAuthContext";
+import { uuid } from "uuidv4";
+import axios from "axios";
+import mutateData from "../../helpers/mutateData";
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
   const data = await fetchData(url);
@@ -48,6 +53,59 @@ export const getStaticProps = async (context) => {
 };
 
 const BlogDetails = ({ blog }) => {
+  const { user } = useUserAuth();
+  const [comment, setComment] = React.useState({
+    commentId: null,
+    userId: null,
+    username: null,
+    commentBody: "",
+  });
+  const [comments, setComments] = React.useState(
+    !blog?.attributes?.comments ? [] : blog.attributes.comments
+  );
+
+  const [commentEmpty, setCommentEmpty] = React.useState(true);
+  const handleCommentChange = (event) => {
+    setComment({
+      commentId: uuid(),
+      userId: user?.userId,
+      username: user?.username,
+
+      commentBody: event.target.value,
+    });
+
+    setCommentEmpty(event.target.value.length < 1);
+  };
+
+  const handleCommentSubmit = async (event) => {
+    event.preventDefault();
+    const url = `${Endpoints.updateBlog}/${blog.id}`;
+    const payload = {
+      data: {
+        comments: [...comments, comment],
+      },
+    };
+    setComments([...comments, comment]);
+    axios
+      .put(url, payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setComment({
+          commentId: null,
+          userId: null,
+          username: null,
+          commentBody: "",
+        });
+        setCommentEmpty(true);
+      })
+      .catch((error) => {
+        console.log("An error occurred:", error.response);
+      });
+  };
+
   if (!blog) {
     return <div>Loading...</div>;
   }
@@ -98,33 +156,50 @@ const BlogDetails = ({ blog }) => {
             </article>
             <Divider sx={{ mt: 4, mb: 4 }} />
             {/* comment section */}
-            {/* <section>
-            <Typography variant="h6" sx={{ mb: 4 }}>
-              Comments (0)
-            </Typography>
-            <CardHeader
-              sx={{ p: 0, mb: 2 }}
-              avatar={
-                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                  R
-                </Avatar>
-              }
-              title={
-                <TextField
-                  id="outlined-basic"
-                  label="Comment"
-                  variant="outlined"
-                  fullWidth
-                />
-              }
-            />
+            <section>
+              <Typography variant="h6" sx={{ mb: 4 }}>
+                Comments ({comments?.length > 0 ? comments.length : 0})
+              </Typography>
+              {comments?.length > 0 ? (
+                comments.map((comment) => (
+                  <CommentFeed
+                    commentId={comment.commentId}
+                    comment={comment}
+                  />
+                ))
+              ) : (
+                <p>No comments yet</p>
+              )}
+              <CardHeader
+                sx={{ p: 0, mb: 2, mt: 4 }}
+                avatar={
+                  <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                    R
+                  </Avatar>
+                }
+                title={
+                  <TextField
+                    id="outlined-basic"
+                    label="Comment"
+                    variant="outlined"
+                    fullWidth
+                    value={comment.commentBody}
+                    onChange={handleCommentChange}
+                  />
+                }
+              />
 
-            <div style={{ textAlign: "right" }}>
-              <Button variant="contained" color="primary">
-                blog Comment
-              </Button>
-            </div>
-          </section> */}
+              <div style={{ textAlign: "right" }}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleCommentSubmit}
+                  disabled={commentEmpty}
+                >
+                  Comment
+                </Button>
+              </div>
+            </section>
           </ContentPaper>
         </Grid>
 
