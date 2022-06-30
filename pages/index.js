@@ -2,10 +2,10 @@ import BlogCard from "../components/BlogCard";
 import { Typography, Box, Grid } from "@mui/material";
 import fetchData from "../helpers/fetchData";
 import { Endpoints } from "../Constants/endpoints";
-import LeftsideBar from "../components/LeftsideBar";
-import ContentCard from "../components/ContentCard";
-import Head from "next/head";
-
+import PageHead from "../components/PageHead";
+import TrendingBlogs from "../components/TrendingBlogs";
+import { getTrendingBlogs } from "../helpers/trendingBlogs";
+import { useEffect, useState } from "react";
 export const getStaticProps = async () => {
   const url = Endpoints.getBlogs;
 
@@ -18,25 +18,21 @@ export const getStaticProps = async () => {
   };
 };
 const Blogs = ({ blogs }) => {
+  const [mostTrending, setMostTrending] = useState([]);
+
+  useEffect(() => {
+    setMostTrending(getTrendingBlogs(blogs));
+  }, [blogs]);
   return (
     <>
-      <Head>
-        <title>Next Blog</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <PageHead title="Next Blog" />
       <Grid
         container
         spacing={2}
         direction="row"
         justifyContent="space-between"
       >
-        <Grid item xs={12} md={2} lg={2}>
-          <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
-            Tags
-          </Typography>
-          <LeftsideBar />
-        </Grid>
-        <Grid item xs={12} md={8} lg={7}>
+        <Grid item xs={12} md={8} lg={8}>
           <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
             Blogs
           </Typography>
@@ -44,15 +40,13 @@ const Blogs = ({ blogs }) => {
             <BlogCard key={blog.id} blogId={blog.id} blog={blog.attributes} />
           ))}
         </Grid>
-        <Grid item xs={12} md={3} lg={3}>
+        <Grid item xs={12} md={3} lg={4}>
           <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
-            News
+            Trending 🔥
           </Typography>
-          <ContentCard />
-          <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
-            Trend
-          </Typography>
-          <ContentCard />
+          {mostTrending.map((blog) => (
+            <BlogCard key={blog.id} blogId={blog.id} blog={blog.attributes} />
+          ))}
         </Grid>
       </Grid>
     </>
