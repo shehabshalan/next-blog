@@ -1,7 +1,7 @@
-import PostForm from "../components/PostForm";
+import BlogForm from "../components/BlogForm";
 
 const CreateBlog = () => {
-  return <PostForm />;
+  return <BlogForm />;
 };
 
 export default CreateBlog;
