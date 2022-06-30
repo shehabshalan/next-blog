@@ -9,14 +9,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Head from "next/head";
+
 import { Box } from "@mui/system";
-import ReactMarkdown from "react-markdown";
 import { Endpoints } from "../../Constants/endpoints";
 import ContentPaper from "../../components/ContentPaper";
 import fetchData from "../../helpers/fetchData";
-import toDateTime from "../../helpers/dateFormater";
-import CommentFeed from "../../components/CommentFeed";
 import { useUserContext } from "../../context/UserContext";
 import { uuid } from "uuidv4";
 import { blue } from "@mui/material/colors";
@@ -24,6 +21,9 @@ import { blue } from "@mui/material/colors";
 import axios from "axios";
 import AuthModal from "../../components/AuthModal";
 import UserProfile from "../../components/UserProfile";
+import CommentSection from "../../components/CommentSection";
+import BlogPost from "../../components/BlogPost";
+import PageHead from "../../components/PageHead";
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
   const data = await fetchData(url);
@@ -111,10 +111,7 @@ const BlogDetails = ({ blog }) => {
   }
   return (
     <>
-      <Head>
-        <title>{blog.attributes.title}</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <PageHead title={blog.attributes.title} />
       <Grid
         container
         spacing={2}
@@ -122,90 +119,34 @@ const BlogDetails = ({ blog }) => {
         justifyContent="space-between"
       >
         <Grid item xs={12} sm={12} md={12} lg={8}>
+          {/* blog content */}
           <ContentPaper>
-            <article
-              style={{
-                marginTop: "2rem",
-                textAlign: "justify",
-              }}
-            >
-              <CardHeader
-                sx={{ p: 0, mb: 2 }}
-                avatar={
-                  <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                    {blog.attributes.username.charAt(0)}
-                  </Avatar>
-                }
-                title={blog.attributes.username}
-                subheader={toDateTime(blog.attributes.createdAt)}
-              />
-              <Typography variant="h4" sx={{ mb: 4 }}>
-                {blog.attributes.title}
-              </Typography>
-              <ReactMarkdown>{blog.attributes.body}</ReactMarkdown>
-              {!blog && (
-                <>
-                  <h2>blog Not Found</h2>
-                  <p>
-                    <Link href="/">Visit Our Homepage</Link>
-                  </p>
-                </>
-              )}
-            </article>
+            <BlogPost
+              username={blog.attributes.username}
+              blogDate={blog.attributes.createdAt}
+              blogTitle={blog.attributes.title}
+              blogBody={blog.attributes.body}
+              blog={blog}
+            />
             <Divider sx={{ mt: 4, mb: 4 }} />
             {/* comment section */}
             <section>
-              <Typography variant="h6" sx={{ mb: 4 }}>
-                Comments ({comments?.length > 0 ? comments.length : 0})
-              </Typography>
-              {comments?.length > 0 ? (
-                comments.map((comment) => (
-                  <CommentFeed key={comment.commentId} comment={comment} />
-                ))
-              ) : (
-                <p>No comments yet</p>
-              )}
-              <CardHeader
-                sx={{ p: 0, mb: 2, mt: 4 }}
-                avatar={
-                  <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                    R
-                  </Avatar>
-                }
-                title={
-                  <TextField
-                    id="outlined-basic"
-                    label="Comment"
-                    variant="outlined"
-                    fullWidth
-                    value={comment.commentBody}
-                    onChange={handleCommentChange}
-                    disabled={!user}
-                    onClick={() => {
-                      if (!user) {
-                        setOpen(true);
-                      }
-                    }}
-                  />
-                }
-              />
               <AuthModal />
-              <div style={{ textAlign: "right" }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleCommentSubmit}
-                  disabled={commentEmpty}
-                >
-                  Comment
-                </Button>
-              </div>
+              <CommentSection
+                comments={comments}
+                commentBody={comment.commentBody}
+                handleCommentChange={handleCommentChange}
+                user={user}
+                setOpen={setOpen}
+                handleCommentSubmit={handleCommentSubmit}
+                commentEmpty={commentEmpty}
+              />
             </section>
           </ContentPaper>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={4}>
-          {/* author information such as username, joined date, email */}
+          {/* author information such as username, joined date */}
           <UserProfile
             username={blog.attributes.username}
             joinDate={blog.attributes.createdAt}
