@@ -65,7 +65,7 @@ const BlogCard = ({ blog, blogId }) => {
       sx={{
         mb: { xs: 0, md: 2 },
         mt: { xs: 2 },
-        maxWidth: "700px",
+        width: "100%",
         cursor: "pointer",
       }}
     >
