@@ -41,12 +41,12 @@ const Blogs = ({ blogs }) => {
           ))}
         </Grid>
         <Grid item xs={12} md={3} lg={4}>
-          <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
+          {/* <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
             Trending 🔥
           </Typography>
           {mostTrending.map((blog) => (
             <BlogCard key={blog.id} blogId={blog.id} blog={blog.attributes} />
-          ))}
+          ))} */}
         </Grid>
       </Grid>
     </>
