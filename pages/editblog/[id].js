@@ -9,6 +9,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useUserContext } from "../../context/UserContext";
 import Link from "next/link";
+import PageHead from "../../components/PageHead";
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
   const data = await fetchData(url);
@@ -98,10 +99,7 @@ const EditBlogDetails = ({ blog }) => {
   }
   return (
     <>
-      <Head>
-        <title>{blog.attributes.title}</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <PageHead title={blog.attributes.title} />
       <ContentPaper>
         <Box
           sx={{
