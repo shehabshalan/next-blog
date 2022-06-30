@@ -4,7 +4,7 @@ it is a **Next.js** blog site which uses **Strapi** (a headless CMS) as a backen
 Demo: https://next-blog-eta-dun.vercel.app/
 ## Inside Look
 
-![Animation](https://user-images.githubusercontent.com/30008865/176794558-b62ed150-809a-4651-b1a5-0389f36f4ef1.gif)
+![Animation](https://user-images.githubusercontent.com/30008865/176796366-93b0d642-5c9f-45ec-8a41-ba86bbf58102.gif)
 
 
 ## Tech Stack:
