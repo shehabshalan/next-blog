@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
-import {
-  Favorite,
-  FavoriteBorder,
-  ThumbUpOffAlt,
-  ThumbUpAlt,
-  ChatBubbleOutline,
-} from "@mui/icons-material";
+import React, { useState } from "react";
 import {
   Avatar,
-  Box,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogTitle,
-  Grid,
   Button,
   IconButton,
   Typography,
@@ -25,10 +14,9 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { red } from "@mui/material/colors";
 import Link from "next/link";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserContext } from "../context/UserContext";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import axios from "axios";
 import mutateData from "../helpers/mutateData";
 import { Endpoints } from "../Constants/endpoints";
 import { useRouter } from "next/router";
@@ -39,17 +27,10 @@ const ITEM_HEIGHT = 48;
 
 const BlogCard = ({ blog, blogId }) => {
   const router = useRouter();
-  const { user } = useUserAuth();
+  const { user } = useUserContext();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [liked, setLiked] = useState(false);
   const open = Boolean(anchorEl);
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  useEffect(() => {
-    if (blog?.userId.includes(user?.userId)) {
-      setLiked(true);
-    }
-  }, [user?.userId]);
 
   const handleClickOpenDialog = () => {
     setDialogOpen(true);
@@ -170,35 +151,6 @@ const BlogCard = ({ blog, blogId }) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <CardActions disableSpacing>
-        <IconButton aria-label="like this">
-          {liked ? (
-            <ThumbUpAlt
-              sx={{
-                color: "blue",
-              }}
-              onClick={() => {
-                setLiked(false);
-              }}
-            />
-          ) : (
-            <ThumbUpOffAlt
-              onClick={() => {
-                setLiked(true);
-              }}
-            />
-          )}
-        </IconButton>
-        {blog.likes <= 1 ? (
-          <Typography variant="body2" color="text.secondary">
-            like
-          </Typography>
-        ) : (
-          <Typography variant="body2" color="text.secondary">
-            {blog.likes} likes
-          </Typography>
-        )}
-      </CardActions>
     </Card>
   );
 };
