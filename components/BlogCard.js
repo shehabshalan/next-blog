@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Favorite,
   FavoriteBorder,
@@ -40,9 +40,16 @@ const ITEM_HEIGHT = 48;
 const BlogCard = ({ blog, blogId }) => {
   const router = useRouter();
   const { user } = useUserAuth();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [liked, setLiked] = useState(false);
   const open = Boolean(anchorEl);
-  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (blog?.userId.includes(user?.userId)) {
+      setLiked(true);
+    }
+  }, [user?.userId]);
 
   const handleClickOpenDialog = () => {
     setDialogOpen(true);
@@ -164,24 +171,27 @@ const BlogCard = ({ blog, blogId }) => {
         </DialogActions>
       </Dialog>
       <CardActions disableSpacing>
-        {/* <IconButton aria-label="love this">
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite sx={{ color: "red" }} />}
-            title="Love this"
-          />
-        </IconButton>
-        Love */}
         <IconButton aria-label="like this">
-          <Checkbox
-            icon={<ThumbUpOffAlt />}
-            checkedIcon={<ThumbUpAlt sx={{ color: "blue" }} />}
-            title="Like this"
-          />
+          {liked ? (
+            <ThumbUpAlt
+              sx={{
+                color: "blue",
+              }}
+              onClick={() => {
+                setLiked(false);
+              }}
+            />
+          ) : (
+            <ThumbUpOffAlt
+              onClick={() => {
+                setLiked(true);
+              }}
+            />
+          )}
         </IconButton>
         {blog.likes <= 1 ? (
           <Typography variant="body2" color="text.secondary">
-            {blog.likes} like
+            like
           </Typography>
         ) : (
           <Typography variant="body2" color="text.secondary">
