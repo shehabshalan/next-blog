@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   Avatar,
@@ -6,12 +6,9 @@ import {
   CardHeader,
   Divider,
   Grid,
-  IconButton,
-  Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import { blue } from "@mui/material/colors";
 import Head from "next/head";
 import { Box } from "@mui/system";
 import ReactMarkdown from "react-markdown";
@@ -20,10 +17,13 @@ import ContentPaper from "../../components/ContentPaper";
 import fetchData from "../../helpers/fetchData";
 import toDateTime from "../../helpers/dateFormater";
 import CommentFeed from "../../components/CommentFeed";
-import { useUserAuth } from "../../context/UserAuthContext";
+import { useUserContext } from "../../context/UserContext";
 import { uuid } from "uuidv4";
+import { blue } from "@mui/material/colors";
+
 import axios from "axios";
 import AuthModal from "../../components/AuthModal";
+import UserProfile from "../../components/UserProfile";
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
   const data = await fetchData(url);
@@ -53,7 +53,7 @@ export const getStaticProps = async (context) => {
 };
 
 const BlogDetails = ({ blog }) => {
-  const { user, setOpen } = useUserAuth();
+  const { user, setOpen } = useUserContext();
   const [comment, setComment] = React.useState({
     commentId: null,
     userId: null,
@@ -143,8 +143,6 @@ const BlogDetails = ({ blog }) => {
                 {blog.attributes.title}
               </Typography>
               <ReactMarkdown>{blog.attributes.body}</ReactMarkdown>
-              {/* <Typography variant="body1">{blog.attributes.body}</Typography> */}
-
               {!blog && (
                 <>
                   <h2>blog Not Found</h2>
@@ -208,37 +206,10 @@ const BlogDetails = ({ blog }) => {
 
         <Grid item xs={12} sm={12} md={12} lg={4}>
           {/* author information such as username, joined date, email */}
-          <ContentPaper>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "center",
-                p: 2,
-              }}
-            >
-              <Avatar
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  bgcolor: blue[500],
-                }}
-                alt="An image of the author"
-              >
-                {blog.attributes.username.charAt(0)}
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                {blog.attributes.username}
-              </Typography>
-              <Divider sx={{ mt: 2, mb: 2, width: "100%" }} />
-              <Typography variant="body1">
-                <strong>Joined</strong> <br />{" "}
-                {toDateTime(blog.attributes.createdAt)}
-              </Typography>
-            </Box>
-          </ContentPaper>
+          <UserProfile
+            username={blog.attributes.username}
+            joinDate={blog.attributes.createdAt}
+          />
         </Grid>
       </Grid>
     </>
