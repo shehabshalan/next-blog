@@ -7,10 +7,10 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Endpoints } from "../Constants/endpoints";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserContext } from "../context/UserContext";
 
 const PostForm = () => {
-  const { user } = useUserAuth();
+  const { user } = useUserContext();
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const handleSubmit = async (event) => {

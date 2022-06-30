@@ -6,10 +6,10 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserContext } from "../context/UserContext";
 
 const Login = () => {
-  const { login, loading } = useUserAuth();
+  const { login, loading } = useUserContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { Endpoints } from "../Constants/endpoints";
 
-const userAuthContext = createContext();
+const UserContext = createContext();
 
-export function UserAuthContextProvider({ children }) {
+export function UserContextProvider({ children }) {
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ export function UserAuthContextProvider({ children }) {
   }
 
   return (
-    <userAuthContext.Provider
+    <UserContext.Provider
       value={{
         isAuth,
         user,
@@ -80,10 +80,10 @@ export function UserAuthContextProvider({ children }) {
       }}
     >
       {children}
-    </userAuthContext.Provider>
+    </UserContext.Provider>
   );
 }
 
-export function useUserAuth() {
-  return useContext(userAuthContext);
+export function useUserContext() {
+  return useContext(UserContext);
 }

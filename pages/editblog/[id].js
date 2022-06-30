@@ -7,7 +7,7 @@ import fetchData from "../../helpers/fetchData";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useUserAuth } from "../../context/UserAuthContext";
+import { useUserContext } from "../../context/UserContext";
 import Link from "next/link";
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
@@ -38,7 +38,7 @@ export const getStaticProps = async (context) => {
 };
 
 const EditBlogDetails = ({ blog }) => {
-  const { user } = useUserAuth();
+  const { user } = useUserContext();
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [title, setTitle] = React.useState(blog?.attributes?.title);

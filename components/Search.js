@@ -3,7 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { Grid } from "@mui/material";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserContext } from "../context/UserContext";
 import { useRouter } from "next/router";
 
 const Search = styled("div")(({ theme }) => ({
@@ -47,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const SearchBar = () => {
-  const { setSearchTerm } = useUserAuth();
+  const { setSearchTerm } = useUserContext();
   const router = useRouter();
   return (
     <Grid item xs={6} md={6} lg={6}>

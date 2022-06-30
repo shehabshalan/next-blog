@@ -5,11 +5,11 @@ import { Endpoints } from "../Constants/endpoints";
 import LeftsideBar from "../components/LeftsideBar";
 import ContentCard from "../components/ContentCard";
 import Head from "next/head";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserContext } from "../context/UserContext";
 import { useEffect, useState } from "react";
 
 const SearchPage = () => {
-  const { searchTerm } = useUserAuth();
+  const { searchTerm } = useUserContext();
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
     const url = `${Endpoints.searchBlogs}${searchTerm}`;

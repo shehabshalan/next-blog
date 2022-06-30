@@ -8,10 +8,10 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { Endpoints } from "../../Constants/endpoints";
 import ContentPaper from "../../components/ContentPaper";
-import { useUserAuth } from "../../context/UserAuthContext";
+import { useUserContext } from "../../context/UserContext";
 
 const EditBlog = ({ blog }) => {
-  const { user } = useUserAuth();
+  const { user } = useUserContext();
 
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
