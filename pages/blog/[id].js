@@ -162,10 +162,7 @@ const BlogDetails = ({ blog }) => {
               </Typography>
               {comments?.length > 0 ? (
                 comments.map((comment) => (
-                  <CommentFeed
-                    commentId={comment.commentId}
-                    comment={comment}
-                  />
+                  <CommentFeed key={comment.commentId} comment={comment} />
                 ))
               ) : (
                 <p>No comments yet</p>
