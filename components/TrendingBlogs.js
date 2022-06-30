@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import Link from "next/link";
-const TrendingBlogs = ({ blog }) => {
+const TrendingBlogs = ({ blog, blogId }) => {
   return (
     <Card
       sx={{
@@ -10,10 +10,12 @@ const TrendingBlogs = ({ blog }) => {
         cursor: "pointer",
       }}
     >
-      <CardHeader
-        title={blog.title}
-        // subheader={toDateTime(blog.datetime.seconds)}
-      />
+      <Link href={`/blog/${blogId}`}>
+        <CardHeader
+          title={blog.title}
+          // subheader={toDateTime(blog.datetime.seconds)}
+        />
+      </Link>
     </Card>
   );
 };

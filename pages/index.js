@@ -45,7 +45,11 @@ const Blogs = ({ blogs }) => {
             Trending 🔥
           </Typography>
           {mostTrending.map((blog) => (
-            <BlogCard key={blog.id} blogId={blog.id} blog={blog.attributes} />
+            <TrendingBlogs
+              key={blog.id}
+              blogId={blog.id}
+              blog={blog.attributes}
+            />
           ))}
         </Grid>
       </Grid>
