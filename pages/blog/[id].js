@@ -23,7 +23,7 @@ import CommentFeed from "../../components/CommentFeed";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { uuid } from "uuidv4";
 import axios from "axios";
-import mutateData from "../../helpers/mutateData";
+import AuthModal from "../../components/AuthModal";
 export const getStaticPaths = async () => {
   const url = Endpoints.getBlogs;
   const data = await fetchData(url);
@@ -53,7 +53,7 @@ export const getStaticProps = async (context) => {
 };
 
 const BlogDetails = ({ blog }) => {
-  const { user } = useUserAuth();
+  const { user, setOpen } = useUserAuth();
   const [comment, setComment] = React.useState({
     commentId: null,
     userId: null,
@@ -182,10 +182,16 @@ const BlogDetails = ({ blog }) => {
                     fullWidth
                     value={comment.commentBody}
                     onChange={handleCommentChange}
+                    disabled={!user}
+                    onClick={() => {
+                      if (!user) {
+                        setOpen(true);
+                      }
+                    }}
                   />
                 }
               />
-
+              <AuthModal />
               <div style={{ textAlign: "right" }}>
                 <Button
                   variant="contained"
