@@ -11,10 +11,10 @@ import {
 /// to do - implement search
 
 import Link from "next/link";
-import { useUserAuth } from "../context/UserAuthContext";
+import { useUserContext } from "../context/UserContext";
 import SearchBar from "./Search";
 const Navbar = () => {
-  const { isAuth, logout } = useUserAuth();
+  const { isAuth, logout } = useUserContext();
   return (
     <AppBar position="static">
       <Toolbar>
