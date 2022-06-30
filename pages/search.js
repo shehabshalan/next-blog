@@ -2,25 +2,23 @@ import BlogCard from "../components/BlogCard";
 import { Typography, Box, Grid } from "@mui/material";
 import fetchData from "../helpers/fetchData";
 import { Endpoints } from "../Constants/endpoints";
-import LeftsideBar from "../components/LeftsideBar";
-import ContentCard from "../components/ContentCard";
 import { useUserContext } from "../context/UserContext";
 import { useEffect, useState } from "react";
 import PageHead from "../components/PageHead";
 
 const SearchPage = () => {
   const { searchTerm } = useUserContext();
-  const [blogs, setBlogs] = useState([]);
+  const [searchedBlogs, setSearchedBlogs] = useState([]);
   useEffect(() => {
     const url = `${Endpoints.searchBlogs}${searchTerm}`;
     const fetchBlogs = async () => {
       const data = await fetchData(url);
-      setBlogs(data);
+      setSearchedBlogs(data);
     };
     fetchBlogs();
   }, [searchTerm]);
 
-  if (blogs?.length === 0) {
+  if (searchedBlogs?.length === 0) {
     return (
       <Box
         sx={{
@@ -48,30 +46,15 @@ const SearchPage = () => {
         spacing={2}
         direction="row"
         justifyContent="space-between"
+        alignItems="center"
       >
-        <Grid item xs={12} md={2} lg={2}>
-          <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
-            Tags
-          </Typography>
-          <LeftsideBar />
-        </Grid>
-        <Grid item xs={12} md={8} lg={7}>
+        <Grid item xs={12} md={12} lg={12}>
           <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
             Blogs
           </Typography>
-          {blogs.map((blog) => (
+          {searchedBlogs.map((blog) => (
             <BlogCard key={blog.id} blogId={blog.id} blog={blog.attributes} />
           ))}
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
-            News
-          </Typography>
-          <ContentCard />
-          <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
-            Trend
-          </Typography>
-          <ContentCard />
         </Grid>
       </Grid>
     </>
