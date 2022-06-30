@@ -11,7 +11,9 @@ export function UserAuthContextProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   useEffect(() => {
     // Perform localStorage action
     const item = localStorage.getItem("token");
@@ -71,6 +73,10 @@ export function UserAuthContextProvider({ children }) {
         logout,
         searchTerm,
         setSearchTerm,
+        open,
+        setOpen,
+        handleOpen,
+        handleClose,
       }}
     >
       {children}
