@@ -4,9 +4,9 @@ import fetchData from "../helpers/fetchData";
 import { Endpoints } from "../Constants/endpoints";
 import LeftsideBar from "../components/LeftsideBar";
 import ContentCard from "../components/ContentCard";
-import Head from "next/head";
 import { useUserContext } from "../context/UserContext";
 import { useEffect, useState } from "react";
+import PageHead from "../components/PageHead";
 
 const SearchPage = () => {
   const { searchTerm } = useUserContext();
@@ -42,10 +42,7 @@ const SearchPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Next Blog</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <PageHead title="Next Blog" />
       <Grid
         container
         spacing={2}
